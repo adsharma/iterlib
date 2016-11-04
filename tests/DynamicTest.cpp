@@ -490,10 +490,6 @@ TEST(Dynamic, FollyDynamicConversion) {
 
   vector_dynamic_t strVector{"hello", "world"};
   v = strVector;
-  dyn = toFollyDynamic(v);
-  EXPECT_TRUE(dyn.isArray());
-  EXPECT_TRUE(dyn.at(0) == "hello");
-  EXPECT_TRUE(dyn.at(1) == "world");
 
   const unordered_map_t m =
   {{ "b", 20L}, { "a", 10L}, {"c", "hello"}};

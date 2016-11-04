@@ -26,7 +26,7 @@ find_package(Folly)
 include_directories(${FOLLY_INCLUDE_DIR})
 
 set(Boost_NO_SYSTEM_PATHS 1)
-set(BOOST_ROOT "/usr/local/boost/1.55.0")
+set(BOOST_ROOT "/usr/local/boost/1.60.0")
 find_package(Boost 1.51 COMPONENTS
              context thread program_options regex system chrono
              REQUIRED)

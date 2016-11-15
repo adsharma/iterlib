@@ -1,0 +1,17 @@
+//  Copyright (c) 2016, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+
+#pragma once
+
+namespace iterlib {
+namespace QueryConstants {
+
+// Special keys
+const std::string kIdKey = ":id";
+const std::string kTypeKey = ":type";
+const std::string kTimeKey = ":time";
+const std::string kUidKey = ":id1s";
+}
+}

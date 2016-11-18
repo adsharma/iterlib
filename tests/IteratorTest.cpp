@@ -33,7 +33,7 @@ TEST(IteratorTest, LimitIterator) {
       folly::make_unique<FutureIterator<ItemOptimized>>(folly::makeFuture(res));
   auto limitIt = folly::make_unique<LimitIterator>(it.release(), 2, 0);
   const auto expected = std::vector<Item>{res[0], res[1]};
-  ExpectIterator(limitIt.get(), expected);
+  EXPECT_THAT(limitIt.get(), ExpectIterator<Item>(expected));
 }
 
 int main(int argc, char* argv[]) {

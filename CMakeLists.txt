@@ -40,6 +40,9 @@ set(SOURCES
   src/ReverseIterator.cpp
   src/RandomIterator.cpp
   src/CountIterator.cpp
+  src/AndIterator.cpp
+  src/OrIterator.cpp
+  src/DifferenceIterator.cpp
   src/Item.cpp
 )
 

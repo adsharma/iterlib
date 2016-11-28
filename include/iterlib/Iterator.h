@@ -139,6 +139,8 @@ class Iterator : public IteratorTraits {
 
   bool advancedAtleastOnce() const { return advancedAtleastOnce_; }
 
+  id_t id() const { return value().id(); }
+
   /**
    * Progresses the pointer in the iterator to a value which is at or
    * just beyond the given value target
@@ -164,7 +166,7 @@ class Iterator : public IteratorTraits {
   virtual IteratorType getType() const { return iteratorType_; }
 
   virtual std::string cookie() const {
-    return folly::stringPrintf("%ld,%lu", value().ts(), value().id());
+    return folly::stringPrintf("%ld,%lu", value().ts(), id());
   }
 
   virtual void reset() { isDone_ = false; }
@@ -207,5 +209,42 @@ class Iterator : public IteratorTraits {
 
  private:
   IteratorType iteratorType_;
+};
+
+// Iterator with more than one child
+class CompositeIterator: public Iterator {
+public:
+  explicit CompositeIterator(IteratorVector& iters)
+    : iterators_(std::move(iters)) {}
+
+  CompositeIterator();
+
+  folly::Future<folly::Unit> prepare() override;
+
+  size_t numChildIters() const {
+    return iterators_.size();
+  }
+
+  virtual const IteratorVector& children() const override {
+    return iterators_;
+  }
+
+protected:
+  IteratorVector iterators_;
+  Item key_;  // Typically copied from the first non-null child
+};
+
+struct StdLessComp : public std::less<Iterator *> {
+  bool operator()(const Iterator *i1,
+                  const Iterator *i2) {
+    return i1->value() < i2->value();
+  }
+};
+
+struct IdLessComp : public std::less<Iterator *> {
+  bool operator() (const Iterator *i1,
+                   const Iterator *i2) {
+    return i1->id() < i2->id();
+  }
 };
 }

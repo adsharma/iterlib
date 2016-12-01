@@ -43,6 +43,8 @@ set(SOURCES
   src/AndIterator.cpp
   src/OrIterator.cpp
   src/DifferenceIterator.cpp
+  src/MergeIterator.cpp
+  src/ProjectIterator.cpp
   src/Item.cpp
 )
 
@@ -65,6 +67,10 @@ set_property(TARGET dynamic-shared PROPERTY CXX_STANDARD 14)
 set(TESTS
         tests/DynamicTest.cpp
         tests/IteratorTest.cpp
+        tests/MergeIteratorTest.cpp
+        tests/NestIteratorTest.cpp
+        tests/ProjectIteratorTest.cpp
+        tests/LetIteratorTest.cpp
 )
 
 set(BINS ${APPS} ${TESTS})

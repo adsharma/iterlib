@@ -25,7 +25,7 @@ class OrIteratorBase : public CompositeIterator {
 // a merge sort to compute a new iterator. If you
 // don't care about ordering, consider using the
 // ConcatIterator below. If input is not sorted,
-// consider making them sorted via OrderbyIterator
+// consider making them sorted via OrderByIterator
 template <class Comparator>
 class OrIterator: public OrIteratorBase {
 public:

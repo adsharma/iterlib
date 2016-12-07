@@ -1,3 +1,5 @@
+// Copyright 2015 - present, Facebook
+
 #include "iterlib/GroupByIterator.h"
 
 namespace iterlib {

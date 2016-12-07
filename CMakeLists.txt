@@ -31,9 +31,12 @@ include_directories(${Boost_INCLUDE_DIR})
 # Required for ubuntu 16.04/boost-1.58
 add_definitions("-DBOOST_VARIANT_USE_RELAXED_GET_BY_DEFAULT")
 
+set(DSOURCES
+  src/Dynamic.cpp
+)
+
 # Main library source code
 set(SOURCES
-  src/Dynamic.cpp
   src/Iterator.cpp
   src/WrappedIterator.cpp
   src/LimitIterator.cpp
@@ -51,8 +54,8 @@ set(SOURCES
   src/Item.cpp
 )
 
-add_library(dynamic-static STATIC ${SOURCES})
-add_library(dynamic-shared SHARED ${SOURCES})
+add_library(dynamic-static STATIC ${DSOURCES})
+add_library(dynamic-shared SHARED ${DSOURCES})
 set_target_properties(dynamic-shared PROPERTIES
                       VERSION ${DYNAMIC_VERSION}
                       SOVERSION ${DYNAMIC_VERSION_MAJOR})
@@ -67,6 +70,22 @@ set_target_properties(dynamic-shared PROPERTIES
 set_property(TARGET dynamic-static PROPERTY CXX_STANDARD 14)
 set_property(TARGET dynamic-shared PROPERTY CXX_STANDARD 14)
 
+add_library(iterlib-static STATIC ${SOURCES})
+add_library(iterlib-shared SHARED ${SOURCES})
+set_target_properties(iterlib-shared PROPERTIES
+                      VERSION ${DYNAMIC_VERSION}
+                      SOVERSION ${DYNAMIC_VERSION_MAJOR})
+
+set_target_properties(iterlib-static PROPERTIES
+                      LINKER_LANGUAGE CXX
+                      OUTPUT_NAME "iterlib")
+set_target_properties(iterlib-shared PROPERTIES
+                      LINKER_LANGUAGE CXX
+                      OUTPUT_NAME "iterlib")
+
+set_property(TARGET iterlib-static PROPERTY CXX_STANDARD 14)
+set_property(TARGET iterlib-shared PROPERTY CXX_STANDARD 14)
+
 set(TESTS
         tests/DynamicTest.cpp
         tests/IteratorTest.cpp
@@ -79,25 +98,25 @@ set(TESTS
         tests/FilterIteratorTest.cpp
 )
 
-set(BINS ${APPS} ${TESTS})
-
 if (BOOST_FOUND)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I ${BOOST_INCLUDE_DIR}")
 endif (BOOST_FOUND)
 
-foreach(sourcefile ${BINS})
+enable_testing()
+foreach(sourcefile ${TESTS})
     string(REPLACE ".cpp" "" exename ${sourcefile})
     string(REGEX REPLACE "^((.+)/)+" "" exename ${exename})
     add_executable(${exename}${ARTIFACT_SUFFIX} ${sourcefile})
+    add_test(${exename} ${exename}${ARTIFACT_SUFFIX})
     list(APPEND EXES ${exename}${ARTIFACT_SUFFIX})
     target_link_libraries(${exename}${ARTIFACT_SUFFIX} dynamic-shared
-                          gtest glog rt double-conversion
+                          iterlib-shared gtest glog rt double-conversion
                           ${FOLLY_LIBRARIES}
                           ${FOLLY_BENCHMARK_LIBRARIES}
                           ${Boost_LIBRARIES}
                           ${CMAKE_THREAD_LIBS_INIT})
     set_property(TARGET ${exename}${ARTIFACT_SUFFIX} PROPERTY CXX_STANDARD 14)
-endforeach(sourcefile ${APPS})
+endforeach(sourcefile ${TESTS})
 
 install(TARGETS dynamic-static COMPONENT devel ARCHIVE DESTINATION lib)
 install(TARGETS dynamic-shared COMPONENT runtime DESTINATION lib)

@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.6)
 project(iterlib)
 
+set(ITERLIB_VERSION "0.1")
+set(ITERLIB_VERSION_MAJOR "0")
+
 if (CMAKE_COMPILER_IS_GNUCXX)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-builtin-memcmp")
 endif (CMAKE_COMPILER_IS_GNUCXX)
@@ -57,8 +60,8 @@ set(SOURCES
 add_library(dynamic-static STATIC ${DSOURCES})
 add_library(dynamic-shared SHARED ${DSOURCES})
 set_target_properties(dynamic-shared PROPERTIES
-                      VERSION ${DYNAMIC_VERSION}
-                      SOVERSION ${DYNAMIC_VERSION_MAJOR})
+                      VERSION ${ITERLIB_VERSION}
+                      SOVERSION ${ITERLIB_VERSION_MAJOR})
 
 set_target_properties(dynamic-static PROPERTIES
                       LINKER_LANGUAGE CXX
@@ -73,8 +76,8 @@ set_property(TARGET dynamic-shared PROPERTY CXX_STANDARD 14)
 add_library(iterlib-static STATIC ${SOURCES})
 add_library(iterlib-shared SHARED ${SOURCES})
 set_target_properties(iterlib-shared PROPERTIES
-                      VERSION ${DYNAMIC_VERSION}
-                      SOVERSION ${DYNAMIC_VERSION_MAJOR})
+                      VERSION ${ITERLIB_VERSION}
+                      SOVERSION ${ITERLIB_VERSION_MAJOR})
 
 set_target_properties(iterlib-static PROPERTIES
                       LINKER_LANGUAGE CXX
@@ -109,8 +112,8 @@ foreach(sourcefile ${TESTS})
     add_executable(${exename}${ARTIFACT_SUFFIX} ${sourcefile})
     add_test(${exename} ${exename}${ARTIFACT_SUFFIX})
     list(APPEND EXES ${exename}${ARTIFACT_SUFFIX})
-    target_link_libraries(${exename}${ARTIFACT_SUFFIX} dynamic-shared
-                          iterlib-shared gtest glog rt double-conversion
+    target_link_libraries(${exename}${ARTIFACT_SUFFIX} iterlib-shared
+                          dynamic-shared gtest glog rt double-conversion
                           ${FOLLY_LIBRARIES}
                           ${FOLLY_BENCHMARK_LIBRARIES}
                           ${Boost_LIBRARIES}

@@ -47,6 +47,7 @@ set(SOURCES
   src/ProjectIterator.cpp
   src/GroupByIterator.cpp
   src/OrderByIterator.cpp
+  src/FilterIterator.cpp
   src/Item.cpp
 )
 
@@ -75,6 +76,7 @@ set(TESTS
         tests/LetIteratorTest.cpp
         tests/GroupByIteratorTest.cpp
         tests/OrderByIteratorTest.cpp
+        tests/FilterIteratorTest.cpp
 )
 
 set(BINS ${APPS} ${TESTS})

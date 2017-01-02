@@ -55,6 +55,7 @@ set(SOURCES
   src/OrderByIterator.cpp
   src/FilterIterator.cpp
   src/Item.cpp
+  src/Query.cpp
 )
 
 add_library(dynamic-static STATIC ${DSOURCES})

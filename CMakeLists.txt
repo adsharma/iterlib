@@ -62,6 +62,7 @@ set(SOURCES
   src/GroupByIterator.cpp
   src/FilterIterator.cpp
   src/Item.cpp
+  src/Query.cpp
 )
 
 add_library(dynamic-static STATIC ${DSOURCES})

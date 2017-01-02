@@ -4,6 +4,8 @@
 //  of patent rights can be found in the PATENTS file in the same directory.
 #include "ExpectIterator.h"
 
+#include "iterlib/Query.h"
+
 #include "iterlib/FutureIterator.h"
 #include "iterlib/LimitIterator.h"
 #include "iterlib/RandomIterator.h"
@@ -238,6 +240,28 @@ TEST(IteratorTest, StdIteratorCompatibility) {
     ++(*it1);
     EXPECT_EQ(i++, (*it1)->get<int64_t>());
   }
+}
+
+// Similar to IteratorTest, but no manual iterator tree
+// building
+TEST(QueryTest, AndIterator) {
+  auto q1 = Query{{
+    ordered_map_t{{
+      {int64_t(QueryType::AND), vector_dynamic_t{{
+        std::vector<int64_t>{{5, 3, 2, 1}},
+        std::vector<int64_t>{{4, 2, 1}},
+      }}}
+  }}}};
+  auto it3 = std::move(getVector({2, 1}));
+  auto andIt = toIteratorTree(q1);
+  andIt->prepare();
+  it3->prepare();
+  while(andIt->next()) {
+    EXPECT_TRUE(it3->next());
+    EXPECT_EQ(it3->key(), andIt->key());
+    EXPECT_EQ(it3->value(), andIt->value());
+  }
+  EXPECT_FALSE(it3->next());
 }
 
 int main(int argc, char* argv[]) {

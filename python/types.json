@@ -1,0 +1,88 @@
+{
+    "definitions" : {
+        "attribute-val": {
+            "anyOf" : [
+                 { "type" : "string" },
+                 { "type" : "number" }
+            ]
+        },
+
+        "attribute-val-or-list": {
+            "anyOf" : [
+                { "type" : "array",
+                  "items" : {
+                      "$ref": "#/definitions/attribute-val"
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                { "$ref": "#/definitions/attribute-val" }
+            ]
+        },
+
+        "attribute-list": {
+            "type" : "array",
+            "items" : {
+                "type" : "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+        },
+
+        "attribute-pair": {
+            "type" : "array",
+            "items" : {
+                "type" : "string"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "uniqueItems": true
+        },
+
+        "attribute-pair-list": {
+            "type" : "array",
+            "items" : {
+                "anyOf" : [
+                     { "$ref": "#/definitions/attribute-pair" }
+                ]
+            },
+            "minItems": 1,
+            "uniqueItems": true
+        },
+
+        "attribute-name-or-list": {
+            "anyOf" : [
+                 { "type" : "string" },
+                 { "$ref": "#/definitions/attribute-list" }
+            ]
+        },
+
+        "orderby-attribute-list": {
+            "type" : "array",
+            "items" : {
+                "anyOf" : [
+                    { "type" : "array",
+                        "items" : [
+                            { "type" : "string" },
+                            { "enum" : ["asc", "desc"] }
+                        ],
+                        "minItems": 2,
+                        "maxItems": 2
+                    },
+                    { "type" : "string" }
+                ]
+            },
+            "minItems": 1,
+            "uniqueItems": true
+        },
+
+        "attribute-list-maybe": {
+            "type" : "array",
+            "items" : {
+                "type" : "string"
+            },
+            "minItems": 0,
+            "uniqueItems": true
+        }
+    }
+}

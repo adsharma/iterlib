@@ -1,132 +1,12 @@
 {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "file:///home/asharma/src/iterlib/python/queries.json",
+
     "type" : "object",
     "properties": {
         "query": { "$ref": "#/definitions/query" }
     },
     "definitions" : {
-        "attribute-val": {
-            "anyOf" : [
-                 { "type" : "string" },
-                 { "type" : "number" }
-            ]
-        },
-
-        "attribute-val-or-list": {
-            "anyOf" : [
-                { "type" : "array",
-                  "items" : {
-                      "$ref": "#/definitions/attribute-val"
-                  },
-                  "minItems": 1,
-                  "uniqueItems": true
-                },
-                { "$ref": "#/definitions/attribute-val" }
-            ]
-        },
-
-        "attribute-list": {
-            "type" : "array",
-            "items" : {
-                "type" : "string"
-            },
-            "minItems": 1,
-            "uniqueItems": true
-        },
-
-        "attribute-pair": {
-            "type" : "array",
-            "items" : {
-                "type" : "string"
-            },
-            "minItems": 2,
-            "maxItems": 2,
-            "uniqueItems": true
-        },
-
-        "attribute-pair-list": {
-            "type" : "array",
-            "items" : {
-                "anyOf" : [
-                     { "$ref": "#/definitions/attribute-pair" }
-                ]
-            },
-            "minItems": 1,
-            "uniqueItems": true
-        },
-
-        "attribute-name-or-list": {
-            "anyOf" : [
-                 { "type" : "string" },
-                 { "$ref": "#/definitions/attribute-list" }
-            ]
-        },
-
-        "orderby-attribute-list": {
-            "type" : "array",
-            "items" : {
-                "anyOf" : [
-                    { "type" : "array",
-                        "items" : [
-                            { "type" : "string" },
-                            { "enum" : ["asc", "desc"] }
-                        ],
-                        "minItems": 2,
-                        "maxItems": 2
-                    },
-                    { "type" : "string" }
-                ]
-            },
-            "minItems": 1,
-            "uniqueItems": true
-        },
-
-        "attribute-list-maybe": {
-            "type" : "array",
-            "items" : {
-                "type" : "string"
-            },
-            "minItems": 0,
-            "uniqueItems": true
-        },
-
-        "and-query" : {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["and"]
-                },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3
-        },
-
-        "apply-query" : {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["apply"]
-                },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3,
-            "maxItems": 3
-        },
-
-        "aggregate-query": {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["aggregate"]
-                },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 2,
-            "maxItems": 2
-        },
-
         "assoc-query": {
             "type" : "array",
             "items": [
@@ -153,32 +33,6 @@
             "maxItems": 2
         },
 
-        "difference-query": {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["difference"]
-                },
-                { "$ref" : "#/definitions/query" },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3,
-            "maxItems": 3
-        },
-
-        "exists-query": {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["exists"]
-                },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "maxItems": 2
-        },
-
         "obj-query": {
             "type" : "array",
             "items": [
@@ -202,69 +56,14 @@
                     "items" : [
                         { "enum" : ["=", "inset", "prefix", "range", "contains",
                                     ">", ">=", "<", "<=", "!="] },
-                        { "$ref" : "#/definitions/attribute-name-or-list" },
-                        { "$ref" : "#/definitions/attribute-val-or-list" }
+                        { "$ref" : "types.json#/definitions/attribute-name-or-list" },
+                        { "$ref" : "types.json#/definitions/attribute-val-or-list" }
                     ],
                     "minItems": 3,
                     "maxItems": 3
                 },
                 { "$ref" : "#/definitions/query" }
             ]
-        },
-
-        "orderby-query": {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["orderby"]
-                },
-                { "$ref" : "#/definitions/orderby-attribute-list" },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3,
-            "maxItems": 3
-        },
-
-        "groupby-query": {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["groupby"]
-                },
-                { "$ref" : "#/definitions/attribute-list-maybe" },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 2,
-            "maxItems": 3
-        },
-
-        "index-or-query" : {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["index-or"]
-                },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3
-        },
-
-        "join-query": {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["join"]
-                },
-                { "$ref" : "#/definitions/attribute-list-maybe" },
-                { "$ref" : "#/definitions/query" },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 4,
-            "maxItems": 4
         },
 
         "json-literal-query": {
@@ -278,20 +77,6 @@
                     "type" : "string"
                 }
             ]
-        },
-
-        "let-query" : {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["let"]
-                },
-                { "$ref" : "#/definitions/attribute-pair-list" },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3,
-            "maxItems": 3
         },
 
         "limit-query": {
@@ -331,45 +116,6 @@
             ]
         },
 
-        "merge-query" : {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["merge"]
-                },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3
-        },
-
-        "nest-query" : {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["nest"]
-                },
-                { "type" : "string" },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3,
-            "maxItems": 3
-        },
-
-
-        "or-query" : {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["or"]
-                },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3
-        },
-
         "project-query": {
             "type" : "array",
             "items": [
@@ -377,21 +123,7 @@
                     "type" : "string",
                     "enum" : ["project"]
                 },
-                { "$ref" : "#/definitions/attribute-list" },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3,
-            "maxItems": 3
-        },
-
-        "random-query": {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["random"]
-                },
-                {   "type" : "integer" },
+                { "$ref" : "types.json#/definitions/attribute-list" },
                 { "$ref" : "#/definitions/query" }
             ],
             "minItems": 3,
@@ -411,59 +143,35 @@
             "maxItems": 2
         },
 
-        "threadlast-query" : {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["->>"]
-                },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "minItems": 3
-        },
-
-        "targets-query": {
-            "type" : "array",
-            "items": [
-                {
-                    "type" : "string",
-                    "enum" : ["targets"]
-                },
-                { "$ref" : "#/definitions/attribute-list" },
-                { "$ref" : "#/definitions/query" }
-            ],
-            "maxItems": 3,
-            "minItems": 3
-        },
 
         "query" : {
             "anyOf" : [
-                { "$ref": "#/definitions/aggregate-query" },
                 { "$ref": "#/definitions/assoc-query" },
-                { "$ref": "#/definitions/and-query" },
-                { "$ref": "#/definitions/apply-query" },
                 { "$ref": "#/definitions/count-query" },
-                { "$ref": "#/definitions/difference-query" },
-                { "$ref": "#/definitions/exists-query" },
                 { "$ref": "#/definitions/obj-query" },
                 { "$ref": "#/definitions/filter-query" },
-                { "$ref": "#/definitions/groupby-query" },
-                { "$ref": "#/definitions/index-or-query" },
-                { "$ref": "#/definitions/join-query" },
                 { "$ref": "#/definitions/json-literal-query" },
-                { "$ref": "#/definitions/let-query" },
+                { "$ref": "#/definitions/literal-query" },
                 { "$ref": "#/definitions/limit-query" },
                 { "$ref": "#/definitions/limit-offset-query" },
-                { "$ref": "#/definitions/literal-query" },
-                { "$ref": "#/definitions/merge-query" },
-                { "$ref": "#/definitions/nest-query" },
-                { "$ref": "#/definitions/or-query" },
-                { "$ref": "#/definitions/orderby-query" },
                 { "$ref": "#/definitions/project-query" },
-                { "$ref": "#/definitions/random-query" },
                 { "$ref": "#/definitions/reverse-query" },
-                { "$ref": "#/definitions/targets-query" }
+
+                { "$ref": "complex.json#/definitions/aggregate-query" },
+                { "$ref": "complex.json#/definitions/and-query" },
+                { "$ref": "complex.json#/definitions/apply-query" },
+                { "$ref": "complex.json#/definitions/difference-query" },
+                { "$ref": "complex.json#/definitions/exists-query" },
+                { "$ref": "complex.json#/definitions/groupby-query" },
+                { "$ref": "complex.json#/definitions/index-or-query" },
+                { "$ref": "complex.json#/definitions/join-query" },
+                { "$ref": "complex.json#/definitions/let-query" },
+                { "$ref": "complex.json#/definitions/merge-query" },
+                { "$ref": "complex.json#/definitions/nest-query" },
+                { "$ref": "complex.json#/definitions/or-query" },
+                { "$ref": "complex.json#/definitions/orderby-query" },
+                { "$ref": "complex.json#/definitions/random-query" },
+                { "$ref": "complex.json#/definitions/targets-query" }
             ]
         }
     }
